@@ -199,36 +199,167 @@ const updateColor = makeChangeColor();
 // this === undefined, тому що updateColor('yellow');- якась випадкова змінна, яка викликається вне об'єкту
 
 
-const hat = {
-    color: 'blue',
-    updateColor,
+// const hat = {
+//     color: 'blue',
+//     updateColor,
     // в цій властивості updateColor зберігається посилання на функцію updateColor
     // по старому писалося так updateColor: updateColor;
-};
+// };
 
 // якщо консоль проходить до оновлення, то отримуємо перший результат(колір)
 // console.log(hat.updateColor);
-hat.updateColor('orange');
-// тут лежить ссилка на функцію
-console.log(hat);
+// hat.updateColor('orange');
+// // тут лежить ссилка на функцію
+// console.log(hat);
 
 // 5 ПРИКЛАД
+// при передачі методів об'єкту як колбек функції контекст не зберігається
+// const counter = {
+//     value: 0,
+//     increment(value) {
+//     console.log('increment -> this', this);
+//     this.value += value;
+// },
+// decrement(value) {
+//     console.log('decrement -> this', this);
+//     this.value -= value;
+// },
+// };
 
+// const updateCounter = function (value, operation) {
+//     operation(value);
+// };
+
+// counter.increment- це ссилка на об'єкт
+// назавжди прив'язуємо посилання на counter
+// updateCounter(10, counter.increment.bind(counter));
+// updateCounter(5, counter.decrement.bind(counter));
+
+// CALL and APPLY
+// const showThis = function (a, b, c, d) - цей запис аналогічний наступному
+const showThis = function (...arg) {
+    console.log(arg);
+    console.log('showThis -> this', this);
+};
+showThis();
+
+// якщо ми хочемо, щоб howThis використовувало об'єкт А
+
+// const objA = {
+//     a: 5,
+//     b: 1.
+// };
+// ми кажемо howThis визовиу себе метод call
+// showThis.call(objA, 10, 20, 30, 55);
+// синтаксис методу apply просить масив данних []
+// showThis.apply(objA, [10, 20, 30, 55]);
+
+// const objB = {
+//     x: 789,
+//     z: 254.
+// };
+// showThis.call(objB, 11, 22, 32, 255);
+// showThis.apply(objB, [11, 22, 32, 255]);
+
+// приклад : якщо метод повинен повторюватися в декількох місцях ,
+// його мжна винести назовні і звернутися до нього через call or apply
+const changeColor = function (color) {
+    console.log('changeColor -> this', this);
+    this.color = color;
+};
+
+const hat = {
+    color: 'black',
+};
+// changeColor.call(hat, 'orange');
+// console.log(hat);
+
+const sweater = {
+    color: 'green',
+};
+
+// changeColor.call(sweater, 'blue');
+// console.log(sweater);
+
+// метод bind робить копію з прив'язаним контекстом
+// в цьому випадку ссилка постійно прив'язана до об'єкту hat
+
+const chageHatColor = changeColor.bind(hat);
+const chageSweaterColor = changeColor.bind(sweater);
+chageHatColor('yellow');
+console.log(hat);
+chageSweaterColor('rose');
+console.log(sweater);
+
+
+// приклад Репети
 const counter = {
     value: 0,
     increment(value) {
-    console.log('increment -> this', this);
-    this.value += value;
+        console.log('increment -> this', this);
+        this.value += 1;
 },
 decrement(value) {
     console.log('decrement -> this', this);
-    this.value -= value;
+    this.value -= 1;
 },
 };
+const decrementBtn = document.querySelector('.js-decrement');
+const incrementBtn = document.querySelector('.js-increment');
+const valueEl = document.querySelector('.js-value');
 
-const updateCounter = function (value, operation) {
-    operation(value);
+console.log(decrementBtn);
+console.log(incrementBtn);
+console.log(valueEl);
+
+decrementBtn.addEventListener('click', function () {
+    console.log('Кликнули на декремннт');
+
+    counter.decrement();
+    console.log(counter);
+
+    valueEl.textContent = counter.value;
+});
+incrementBtn.addEventListener('click', function () {
+    console.log('Кликнули на інкремннт');
+
+      counter.increment();
+    console.log(counter);
+
+        valueEl.textContent = counter.value;
+});
+// decrementBtn.textContent = 'qwwewreetryr';
+
+
+
+// із автоперевірки
+const historyService = {
+  orders: [
+    { email: "jacob@hotmail.com", dish: "Burrito" },
+    { email: "solomon@topmail.net", dish: "Burger" },
+    { email: "artemis@coldmail.net", dish: "Pizza" },
+    { email: "solomon@topmail.net", dish: "Apple pie" },
+    { email: "jacob@hotmail.com", dish: "Taco" },
+  ],
+  // Change code below this line
+  getOrdersLog() {
+    return this.orders
+      .map(order => `email: ${order.email} dish: ${order.dish}`)
+      .join(" - ");
+  },
+  getEmails() {
+    const emails = this.orders.map(order => order.email);
+    const uniqueEmails = new Set(emails);
+    return [...uniqueEmails];
+  },
+  getOrdersByEmail(email) {
+    return this.orders.filter(order => order.email === email);
+  },
+  // Change code above this line
 };
 
-updateCounter(10, counter.increment);
-updateCounter(5, counter.decrement);
+// historyService.getOrdersByEmail("solomon@topmail.net");- це не визов! не працює
+// console.log(historyService.getOrdersByEmail("solomon@topmail.net"));
+// console.log(historyService.getOrdersByEmail("artemis@coldmail.net"));
+// console.log(historyService.getOrdersLog());
+// console.log(historyService.getEmails());
