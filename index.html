@@ -7,13 +7,28 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- <div class="counter">
-        <button class="js-decrement">Зменшити</button>
-        <p class="js-value">0</p>
-        <button class="js-increment">Збільшити</button>
+    <!-- <div id="counter-1">
+        <button data-action ="decrement">Зменшити</button>
+        <p data-action="value">0</p>
+        <button ata-action ="increment">Збільшити</button>
     </div> -->
+    <!-- записи можна робити порізному, зверху один зразок, а знизу той, що ми підключаєм
+     -->
+     <!-- data- атрибути практичніше робити для JS, для CSS будемо робити class  -->
+     <div id="counter-1">
+        <button data-decrement>-</button>
+        <p data-value>0</p>
+        <button data-increment>+</button>
+    </div>
+
+    <div id="counter-2">
+        <button data-decrement>-</button>
+        <p data-value>0</p>
+        <button data-increment>+</button>
+    </div>
     <!-- <script src="./js/this-in-js.js" type="module"></script> -->
     <!-- <script src="./js/proto-js.js" type="module"></script> -->
-     <script src="./js/oop-js.js" type="module"></script>
+     <!-- <script src="./js/oop-js.js" type="module"></script> -->
+     <script src="./js/counter.js" type="module"></script>
 </body>
 </html>

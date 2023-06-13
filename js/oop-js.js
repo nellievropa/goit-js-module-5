@@ -106,3 +106,24 @@ const mango = new User({ email: 'mango@mail.com', password: 11111111 });
 mango.changeEmail('my-new-email@mail.com');
 console.log(mango);
 
+// статичні властивості і статичні методи
+// в статичних методах є this але він посилається на власні методи, тому майже непотрібний
+
+
+console.log(Math.round(5.1));
+console.log(Math.PI);
+
+User.logInfo = function (obj) {
+    console.log('User.logInfo ->', obj);
+    console.log('Пошта: ', obj.email);
+    console.log('Пароль: ', obj.password);
+};
+console.dir(User);
+User.message = 'я статична властивість і мене немає на екземплярах або в прототипі'
+User.logInfo(mango);
+// User.logInfo не буде доступна в Proto!!!
+
+// приклади методів на об'єкті
+Object.keys();
+Object.values();
+
