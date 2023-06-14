@@ -29,8 +29,8 @@ constructor({brand, model, price} = {}) {
         console.log(this);
 
         this.brand = brand; 
-        this.model = model;
-        this.price = price;
+        this._model = model;
+        this._price = price;
 // і трансформується в таке 
 
 this. mySuperPublicFields = 666;
@@ -44,6 +44,28 @@ this. mySuperPublicFields = 666;
     }
     updateModel(newModel) {
         this.model = newModel;
+    }
+    // щоб в майбутньому не змінювати в 20 місцях назву моделі, ми використовуємо:
+    // getModel() {
+    //     return this.model;
+    // }
+// GETTER виглядає так!  НЕ може мати назву однакову з властивістю
+get model(){
+    return this._model;
+}
+get price() {
+    return this._price;
+}
+    // похоже змінюємо одну модель на друг
+    // setModel(newModel) {
+    //     this.model = newModel;
+    // }
+    // аналогічно  SETTER
+    set model(newModel) {
+        this._model = newModel;
+    }
+    set price(newPrice) {
+        this._price =newPrice
     }
 }
 
@@ -65,3 +87,26 @@ const carInstance = new Car1({
 console.log(carInstance);
 // визвати статичний метод
 Car1.logInfo(carInstance);
+
+// ми не звертаємось до властивостей напряму, бо в майбутньому вони можуть змінитися,тому використовуєм методи GET and SET
+// Car1.logInfo(carInstance.model); -працює, але ми так не робимо!
+
+// console.log(carInstance.getModel());
+// змінюємо
+// carInstance.setModel('Q4');
+// викликаємо
+// console.log(carInstance.getModel());
+
+
+// якщо це GETTER and SETTER то викликаються вони так
+// GETTER
+console.log(carInstance.model);
+console.log(carInstance.price);
+// SETTER
+carInstance.model = 'Q4';
+console.log(carInstance.model);
+carInstance.price = 98000;
+console.log(carInstance.price);
+
+console.log(carInstance);
+
