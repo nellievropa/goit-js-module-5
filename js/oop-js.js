@@ -124,6 +124,32 @@ User.logInfo(mango);
 // User.logInfo не буде доступна в Proto!!!
 
 // приклади методів на об'єкті
-Object.keys();
-Object.values();
+// Object.keys();
+// Object.values();
+
+
+class StringBuilder {
+    constructor(value = []) {
+        this.value = value;
+    }
+    getValue() {
+        return this.value;
+    }
+      padEnd(str) {
+       this.value.push(str);
+     }
+  
+}
+
+
+// Change code above this line
+const builder = new StringBuilder(".");
+console.log(builder.getValue()); // "."
+builder.padStart("^");
+console.log(builder.getValue()); // "^."
+// builder.padEnd("^");
+// console.log(builder.getValue()); // "^.^"
+// builder.padBoth("=");
+// console.log(builder.getValue()); // "=^.^="
+
 
