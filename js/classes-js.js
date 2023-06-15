@@ -65,7 +65,7 @@ get price() {
         this._model = newModel;
     }
     set price(newPrice) {
-        this._price =newPrice
+        this._price = newPrice
     }
 }
 
@@ -110,3 +110,61 @@ console.log(carInstance.price);
 
 console.log(carInstance);
 
+
+// з автоперевірки!!!!
+class Car {
+    // Звернути увагу!!!
+   static MAX_PRICE = 50000;
+    
+    #price;
+      
+    constructor( { price } ) {
+      this.#price = price;
+   
+    }
+  
+    get price() {
+      return this.#price;
+    }
+  
+    set price(newPrice) {
+        // звертаємось через ім'я сласу!!!! Car!!!!
+      if(newPrice <= Car.MAX_PRICE) {
+         this.#price = newPrice;
+      }
+     return this.#price;
+    }
+    // Change code above this line
+  }
+  
+  const audi = new Car({ price: 35000 });
+  console.log(audi.price); // 35000
+  
+  audi.price = 49000;
+  console.log(audi.price); // 49000
+  
+  audi.price = 51000;
+  console.log(audi.price); // 49000
+
+//   Із автоперевірки! звернути увагу на звернення і синтаксис!!!
+class Car {
+    static #MAX_PRICE = 50000;
+    // Change code below this line
+  static checkPrice (price) {
+    if(price > Car.#MAX_PRICE) {
+      return `Error! Price exceeds the maximum`;
+    }
+    return `Success! Price is within acceptable limits`;
+  }
+    // Change code above this line
+    constructor({ price }) {
+      this.price = price;
+    }
+  }
+  
+  const audi = new Car({ price: 36000 });
+  const bmw = new Car({ price: 64000 });
+  
+  console.log(Car.checkPrice(audi.price)); // "Success! Price is within acceptable limits"
+  console.log(Car.checkPrice(bmw.price)); // "Error! Price exceeds the maximum"
+  

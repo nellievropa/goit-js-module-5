@@ -35,6 +35,33 @@ console.log(mango);
 mango.attack();
 mango.gainXp(1000);
 
+// якщо хочемо зробити героя, який наслідує воїна
+
+class Bersek extends Warrior {
+    constructor({warcry, ...restProps} = {}) {
+        super(restProps);
+
+        this.warcry = warcry;
+    }
+    babyRage() {
+        console.log(this.warcry);
+    }
+}
+
+// створюємо нового героя 
+const ajax = new Bersek({name: 'ajax', 
+xp: 550, 
+weapon: 'axe', 
+warcry: 'WAAAAAAAWWW'
+});
+
+console.log(ajax);
+ajax.babyRage();
+ajax.attack();
+ajax.gainXp(230);
+
+
+
 
 class Mage extends Hero {
     constructor({spells, ...restProps}) {
@@ -65,3 +92,113 @@ console.log(Hero.prototype.__proto__ === Object.prototype);
 
 console.log('Warrior.prototype', Warrior.prototype);
 console.log('Hero.prototype', Hero.prototype);
+
+// із автоперевірки! дивись синтаксис!!!
+class User1 {
+    constructor(email) {
+      this.email = email;
+    }
+  
+    get email() {
+      return this.email;
+    }
+  
+    set email(newEmail) {
+      this.email = newEmail;
+    }
+  }
+  
+  class Admin extends (User1) {
+    static AccessLevel = {
+      BASIC: "basic", 
+      SUPERUSER: "superuser"}
+  }
+
+
+
+//   І Знову дивимся на синтаксис!!!
+  class User {
+    email;
+  
+    constructor(email) {
+      this.email = email;
+    }
+  
+    get email() {
+      return this.email;
+    }
+  
+    set email(newEmail) {
+      this.email = newEmail;
+    }
+  }
+  
+  class Admin extends User {
+    // Change code below this line
+    accessLevel;
+    static AccessLevel = {
+      BASIC: "basic",
+      SUPERUSER: "superuser",
+    };
+  constructor({ email, accessLevel}) {
+    super(email);
+    this.accessLevel = accessLevel;
+  }
+    
+    // Change code above this line
+  }
+  
+  const mango = new Admin({
+    email: "mango@mail.com",
+    accessLevel: Admin.AccessLevel.SUPERUSER,
+  });
+  
+  console.log(mango.email); // "mango@mail.com"
+  console.log(mango.accessLevel); // "superuser"
+
+// ще приклад з атоперевірки дивись: методи і синтаксис!
+  class User {
+    email;
+  
+    constructor(email) {
+      this.email = email;
+    }
+  
+    get email() {
+      return this.email;
+    }
+  
+    set email(newEmail) {
+      this.email = newEmail;
+    }
+  }
+  class Admin extends User {
+    // Change code below this line
+    blacklistedEmails = [];
+    static AccessLevel = {
+      BASIC: "basic",
+      SUPERUSER: "superuser",
+    };
+  
+    constructor({ email, accessLevel }) {
+      super(email);
+      this.accessLevel = accessLevel;
+    }
+    
+  blacklist(email) {
+    this.blacklistedEmails.push(email);
+  }
+    isBlacklisted(email) {
+      if(this.blacklistedEmails.includes(email)) {
+         return true;
+      }
+      return false;
+    }
+    // Change code above this line
+  }
+  
+  const mango = new Admin({
+    email: "mango@mail.com",
+    accessLevel: Admin.AccessLevel.SUPERUSER,
+  });
+  
